@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick-Links</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        :root {
+            --primary-color: #e0e0e0;
+            --secondary-color: #909090;
+            --accent-color: #ffffff;
+        }
+
+        body {
+            background-image: url('Background001.webp'); /* Replace with your image path */
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('Background001.webp'); /* Replace with your image path */
+            background-size: cover;
+            background-position: center;
+            opacity: 0.8;
+        }
+
+        /* Add a semi-transparent overlay */
+        .content-overlay {
+            position: relative;
+            z-index: 1;
+        }
+
+        .links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin: 20px 0;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        a {
+            display: inline-block;
+            text-decoration: none;
+            background: linear-gradient(45deg, 
+                var(--secondary-color), 
+                var(--primary-color));
+            color: var(--accent-color);
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 20px rgba(18, 18, 230, 1);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        a:hover {
+            background-color: var(--primary-color);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 0 30px rgba(18, 18, 230, 1);
+        }
+
+        /* Neon-style glowing text */
+        h2 {
+            font-size: 1.1rem;
+            color: #1212e6;
+            margin-bottom: 40px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(0, 35, 45, 0.7),
+                         0 0 30px rgba(0, 35, 45, 0.6),
+                         0 0 50px rgba(0, 35, 45, 0.4);
+            animation: neonGlow 1.5s infinite alternate;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="background-image"></div>
+    
+    <div class="content-overlay">
+        <h2>Quick-Links</h2>
+
+        <div class="links">
+        <a href="https://start.duckduckgo.com/" target="_blank">Duck</a>
+        <a href="https://yandex.com" target="_blank">Yandex</a>
+        <a href="https://www.google.com" target="_blank">Google</a>
+        <a href="https://www.startpage.com" target="_blank">Start</a>
+        <a href="https://search.brave.com/" target="_blank">Brave</a>
+    </div>
+    
+    <div class="links">
+        <a href="https://livestormchasing.com/" target="_blank">Tornado</a>
+        <a href="https://www.youtube.com/@RyanHallYall/streams" target="_blank">RyanHall</a>
+        <a href="https://www.youtube.com/@MaxVelocityWX/streams" target="_blank">Max-Vel</a>
+        <a href="https://www.youtube.com/@davidbombal/videos" target="_blank">D Bombal</a>
+        <a href="https://www.youtube.com/@0dayCTF/videos" target="_blank">Ryan M</a>
+    </div>
+    
+    <div class="links">
+        <a href="https://services.swpc.noaa.gov/images/aurora-forecast-northern-hemisphere.jpg" target="_blank">Aurora</a>
+        <a href="https://earthquake.usgs.gov/earthquakes/map/?extent=-82.40242,-61.875&extent=82.3558,461.60156&listOnlyShown=true&baseLayer=terrain" target="_blank">Earthquakes</a>
+        <a href="https://www.windy.com/52.123/0.895?clouds,51.737,0.895,8,m:e51agcE" target="_blank">Windy</a>
+        <a href="https://www.netweather.tv/live-weather/radar" target="_blank">Rain-Radar</a>
+    </div>
+
+    <div class="links">
+        <a href="https://rt.com/" target="_blank">RT</a>
+        <a href="https://m41c01m-001.github.io/Website-01/" target="_blank">My-Site-01</a>
+        <a href="https://m41c01m-001.github.io/Website-02/" target="_blank">My-Site-02</a>
+        <a href="https://leezacookviolinist.com/" target="_blank">Leeza-Live</a>
+        <a href="https://thepihut.com" target="_blank">Pi-Hut</a>
+    </div>
+      
+    <div class="links">
+        <a href="https://www.youtube.com/user/Suspicious0bservers/videos" target="_blank">SpaceWeather</a>
+        <a href="https://www.youtube.com/@DailyDoseOfInternet/videos" target="_blank">Daily Dose</a>
+        <a href="https://www.youtube.com/@keshe.foundation/streams" target="_blank">KFSSI</a>
+    </div>
+    
+    <div class="links">
+        <a href="https://x.com/" target="_blank">X</a>
+        <a href="https://x.com/dshensmith" target="_blank">X - BBB</a>
+        <a href="https://x.com/MehranTKeshe" target="_blank">X - MT Keshe</a>
+    </div>
+    
+    <div class="links">
+        <a href="https://huggingface.co/chat/" target="_blank">HC-AI</a>
+        <a href="https://chatgpt.com/" target="_blank">ChatGPT</a>
+        <a href="https://web.whatsapp.com/" target="_blank">WhatsApp</a>
+    </div>
+    
+</body>
+</html>
