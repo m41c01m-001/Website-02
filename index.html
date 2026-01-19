@@ -1,165 +1,201 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quick-Links</title>
-    <style>
-        /* Basic Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: pointer;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quick-Links</title>
+  <style>
+    /* Basic reset (mobile-first) */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
 
-        :root {
-            --primary-color: #e0e0e0;
-            --secondary-color: #909090;
-            --accent-color: #ffffff;
-        }
+    :root{
+      --primary-color: #e0e0e0;
+      --secondary-color: #909090;
+      --accent-color: #ffffff;
+      --bg-opacity: 0.82;
+      --gap: 1rem;
+    }
 
-        body {
-            background-image: url('Background001.webp'); /* Replace with your image path */
-            background-size: cover;
-            background-position: center;
-            color: #fff;
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            text-align: center;
-            position: relative;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding: 20px;
-        }
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #000; /* fallback while image loads */
+    }
 
-        .background-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('Background001.webp'); /* Replace with your image path */
-            background-size: cover;
-            background-position: center;
-            opacity: 0.8;
-        }
+    /* Background image + overlay using ::before for better stacking and safe-area support */
+    body{
+      min-height:100vh;
+      position:relative;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      color:#fff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      overflow-x:hidden;
+      padding: 20px;
+    }
 
-        /* Add a semi-transparent overlay */
-        .content-overlay {
-            position: relative;
-            z-index: 1;
-        }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background-image: url('Background001.webp');
+      background-size: cover;
+      background-position: center;
+      opacity: var(--bg-opacity);
+      z-index:0;
+      pointer-events:none;
+      will-change: transform;
+    }
 
-        .links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-            margin: 20px 0;
-            max-width: 1200px;
-            width: 100%;
-        }
+    /* Content wrapper sits above the background */
+    .wrap{
+      position:relative;
+      z-index:1;
+      width:100%;
+      max-width:1200px;
+    }
 
-        a {
-            display: inline-block;
-            text-decoration: none;
-            background: linear-gradient(45deg, 
-                var(--secondary-color), 
-                var(--primary-color));
-            color: var(--accent-color);
-            padding: 15px 35px;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 0 20px rgba(18, 18, 230, 1);
-            cursor: pointer;
-            white-space: nowrap;
-        }
+    /* Title / neon style */
+    h2{
+      margin: 0 0 1.25rem 0;
+      text-align:center;
+      font-size: clamp(1rem, 3.5vw, 1.25rem);
+      color:#1212e6;
+      letter-spacing:4px;
+      text-transform:uppercase;
+      font-weight:700;
+      text-shadow:
+        0 0 12px rgba(18,18,230,0.5),
+        0 0 22px rgba(18,18,230,0.35);
+      animation: neonGlow 1.8s infinite alternate;
+    }
 
-        a:hover {
-            background-color: var(--primary-color);
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 0 30px rgba(18, 18, 230, 1);
-        }
+    @keyframes neonGlow {
+      from { text-shadow: 0 0 8px rgba(18,18,230,0.35), 0 0 18px rgba(18,18,230,0.25); }
+      to   { text-shadow: 0 0 18px rgba(18,18,230,0.6), 0 0 36px rgba(18,18,230,0.45); }
+    }
 
-        /* Neon-style glowing text */
-        h2 {
-            font-size: 1.1rem;
-            color: #1212e6;
-            margin-bottom: 40px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            font-weight: bold;
-            text-shadow: 0 0 20px rgba(0, 35, 45, 0.7),
-                         0 0 30px rgba(0, 35, 45, 0.6),
-                         0 0 50px rgba(0, 35, 45, 0.4);
-            animation: neonGlow 1.5s infinite alternate;
-        }
+    /* Responsive grid for links */
+    .links {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* smaller min for mobile friendliness */
+      gap: var(--gap);
+      width:100%;
+      margin-bottom: 1rem;
+    }
 
-    </style>
+    /* Link pills — use flex to center, allow wrapping, responsive padding and font-size */
+    .links a{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+      background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+      color: var(--accent-color);
+      padding: .6rem 1rem; /* reduced and responsive */
+      border-radius: 999px;
+      font-weight:700;
+      font-size: clamp(.92rem, 2.5vw, 1.1rem);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      transition: transform .18s ease, box-shadow .18s ease;
+      box-shadow: 0 0 20px rgba(18,18,230,0.9);
+      min-height:44px; /* accessible touch target */
+      text-align:center;
+      white-space: normal; /* allow wrapping if needed */
+      word-break: keep-all;
+      cursor: pointer; /* apply only to interactive element */
+    }
+
+    .links a:hover,
+    .links a:focus{
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 6px 28px rgba(18,18,230,0.9);
+      outline: none;
+    }
+
+    .links a:focus{
+      box-shadow: 0 0 0 3px rgba(18,18,230,0.22);
+    }
+
+    /* Smaller spacing on small devices */
+    @media (max-width:420px){
+      :root { --gap: .6rem; }
+      .wrap { padding-left:6px; padding-right:6px; }
+      .links a { padding: .5rem .75rem; }
+    }
+
+    /* Larger screens: increase gaps and keep nicer proportions */
+    @media (min-width:900px){
+      :root { --gap: 1.25rem; }
+      .links a { padding: .95rem 1.5rem; }
+    }
+
+    /* Respect very narrow viewports (old phones) */
+    @media (max-width:320px){
+      .links { grid-template-columns: 1fr; gap: .5rem; }
+      h2 { font-size: 1rem; letter-spacing:3px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="background-image"></div>
-    
-    <div class="content-overlay">
-        <h2>Quick-Links</h2>
+  <div class="wrap">
+    <h2>Quick-Links</h2>
 
-        <div class="links">
-        <a href="https://start.duckduckgo.com/" target="_blank">Duck</a>
-        <a href="https://yandex.com" target="_blank">Yandex</a>
-        <a href="https://www.google.com" target="_blank">Google</a>
-        <a href="https://www.startpage.com" target="_blank">Start</a>
-        <a href="https://search.brave.com/" target="_blank">Brave</a>
-    </div>
-    
     <div class="links">
-        <a href="https://livestormchasing.com/" target="_blank">Tornado</a>
-        <a href="https://www.youtube.com/@RyanHallYall/streams" target="_blank">RyanHall</a>
-        <a href="https://www.youtube.com/@MaxVelocityWX/streams" target="_blank">Max-Vel</a>
-        <a href="https://www.youtube.com/@davidbombal/videos" target="_blank">D Bombal</a>
-        <a href="https://www.youtube.com/@0dayCTF/videos" target="_blank">Ryan M</a>
-    </div>
-    
-    <div class="links">
-        <a href="https://services.swpc.noaa.gov/images/aurora-forecast-northern-hemisphere.jpg" target="_blank">Aurora</a>
-        <a href="https://earthquake.usgs.gov/earthquakes/map/?extent=-82.40242,-61.875&extent=82.3558,461.60156&listOnlyShown=true&baseLayer=terrain" target="_blank">Earthquakes</a>
-        <a href="https://www.windy.com/52.123/0.895?clouds,51.737,0.895,8,m:e51agcE" target="_blank">Windy</a>
-        <a href="https://www.netweather.tv/live-weather/radar" target="_blank">Rain-Radar</a>
+      <a href="https://start.duckduckgo.com/" target="_blank" rel="noopener">Duck</a>
+      <a href="https://yandex.com" target="_blank" rel="noopener">Yandex</a>
+      <a href="https://www.google.com" target="_blank" rel="noopener">Google</a>
+      <a href="https://www.startpage.com" target="_blank" rel="noopener">Start</a>
+      <a href="https://search.brave.com/" target="_blank" rel="noopener">Brave</a>
     </div>
 
     <div class="links">
-        <a href="https://rt.com/" target="_blank">RT</a>
-        <a href="https://m41c01m-001.github.io/Website-01/" target="_blank">My-Site-01</a>
-        <a href="https://m41c01m-001.github.io/Website-02/" target="_blank">My-Site-02</a>
-        <a href="https://leezacookviolinist.com/" target="_blank">Leeza-Live</a>
-        <a href="https://thepihut.com" target="_blank">Pi-Hut</a>
+      <a href="https://livestormchasing.com/" target="_blank" rel="noopener">Tornado</a>
+      <a href="https://www.youtube.com/@RyanHallYall/streams" target="_blank" rel="noopener">RyanHall</a>
+      <a href="https://www.youtube.com/@MaxVelocityWX/streams" target="_blank" rel="noopener">Max-Vel</a>
+      <a href="https://www.youtube.com/@davidbombal/videos" target="_blank" rel="noopener">D Bombal</a>
+      <a href="https://www.youtube.com/@0dayCTF/videos" target="_blank" rel="noopener">Ryan M</a>
     </div>
-      
+
     <div class="links">
-        <a href="https://www.youtube.com/user/Suspicious0bservers/videos" target="_blank">SpaceWeather</a>
-        <a href="https://www.youtube.com/@DailyDoseOfInternet/videos" target="_blank">Daily Dose</a>
-        <a href="https://www.youtube.com/@keshe.foundation/streams" target="_blank">KFSSI</a>
+      <a href="https://services.swpc.noaa.gov/images/aurora-forecast-northern-hemisphere.jpg" target="_blank" rel="noopener">Aurora</a>
+      <a href="https://earthquake.usgs.gov/earthquakes/map/?extent=-82.40242,-61.875&extent=82.3558,461.60156&listOnlyShown=true&baseLayer=terrain" target="_blank" rel="noopener">Earthquakes</a>
+      <a href="https://www.windy.com/52.123/0.895?clouds,51.737,0.895,8,m:e51agcE" target="_blank" rel="noopener">Windy</a>
+      <a href="https://www.netweather.tv/live-weather/radar" target="_blank" rel="noopener">Rain-Radar</a>
     </div>
-    
+
     <div class="links">
-        <a href="https://x.com/" target="_blank">X</a>
-        <a href="https://x.com/dshensmith" target="_blank">X - BBB</a>
-        <a href="https://x.com/MehranTKeshe" target="_blank">X - MT Keshe</a>
+      <a href="https://rt.com/" target="_blank" rel="noopener">RT</a>
+      <a href="https://m41c01m-001.github.io/Website-01/" target="_blank" rel="noopener">My-Site-01</a>
+      <a href="https://m41c01m-001.github.io/Website-02/" target="_blank" rel="noopener">My-Site-02</a>
+      <a href="https://leezacookviolinist.com/" target="_blank" rel="noopener">Leeza-Live</a>
+      <a href="https://thepihut.com" target="_blank" rel="noopener">Pi-Hut</a>
     </div>
-    
+
     <div class="links">
-        <a href="https://huggingface.co/chat/" target="_blank">HC-AI</a>
-        <a href="https://chatgpt.com/" target="_blank">ChatGPT</a>
-        <a href="https://web.whatsapp.com/" target="_blank">WhatsApp</a>
+      <a href="https://www.youtube.com/user/Suspicious0bservers/videos" target="_blank" rel="noopener">SpaceWeather</a>
+      <a href="https://www.youtube.com/@DailyDoseOfInternet/videos" target="_blank" rel="noopener">Daily Dose</a>
+      <a href="https://www.youtube.com/@keshe.foundation/streams" target="_blank" rel="noopener">KFSSI</a>
     </div>
-    
+
+    <div class="links">
+      <a href="https://x.com/" target="_blank" rel="noopener">X</a>
+      <a href="https://x.com/dshensmith" target="_blank" rel="noopener">X - BBB</a>
+      <a href="https://x.com/MehranTKeshe" target="_blank" rel="noopener">X - MT Keshe</a>
+    </div>
+
+    <div class="links">
+      <a href="https://huggingface.co/chat/" target="_blank" rel="noopener">HC-AI</a>
+      <a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a>
+      <a href="https://web.whatsapp.com/" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
 </body>
 </html>
